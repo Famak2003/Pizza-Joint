@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { easeInOut, motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 
 const containerVariant = {
   hidden: {
@@ -60,36 +61,46 @@ const Toppings = ({ addTopping, pizza }) => {
   ];
 
   return (
-    <motion.div
-      variants={containerVariant}
-      initial={"hidden"}
-      animate={"visible"}
-      exit={"exit"}
-      className="toppings container"
-    >
-      <h3>Step 2: Choose Toppings</h3>
-      <ul>
-        {toppings.map((topping) => {
-          let spanClass = pizza.toppings.includes(topping) ? "active" : "";
-          return (
-            <motion.li
-              variants={toppingsVariant}
-              whileHover={"hoverEffect"}
-              key={topping}
-              onClick={() => addTopping(topping)}
-            >
-              <span className={spanClass}>{topping}</span>
-            </motion.li>
-          );
-        })}
-      </ul>
+    <>
+      <Helmet>
+        <title>Pizza Joint pizza-toppings-selection</title>
+        <meta
+          name="description"
+          content="Choose desired toppings to go with your pizza base"
+        />
+        <link rel="canonical" href="/toppings" />
+      </Helmet>
+      <motion.div
+        variants={containerVariant}
+        initial={"hidden"}
+        animate={"visible"}
+        exit={"exit"}
+        className="toppings container"
+      >
+        <h3>Step 2: Choose Toppings</h3>
+        <ul>
+          {toppings.map((topping) => {
+            let spanClass = pizza.toppings.includes(topping) ? "active" : "";
+            return (
+              <motion.li
+                variants={toppingsVariant}
+                whileHover={"hoverEffect"}
+                key={topping}
+                onClick={() => addTopping(topping)}
+              >
+                <span className={spanClass}>{topping}</span>
+              </motion.li>
+            );
+          })}
+        </ul>
 
-      <Link to="/order">
-        <motion.button variants={buttonVariant} whileHover={"hoverEffect"}>
-          Order
-        </motion.button>
-      </Link>
-    </motion.div>
+        <Link to="/order">
+          <motion.button variants={buttonVariant} whileHover={"hoverEffect"}>
+            Order
+          </motion.button>
+        </Link>
+      </motion.div>
+    </>
   );
 };
 

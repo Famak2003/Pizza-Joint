@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { easeInOut, motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 
 const containerVariant = {
   hidden: {
@@ -64,40 +65,53 @@ const Base = ({ addBase, pizza }) => {
   const bases = ["Classic", "Thin & Crispy", "Thick Crust"];
 
   return (
-    <motion.div
-      className="base container"
-      variants={containerVariant}
-      initial={"hidden"}
-      animate={"visible"}
-      exit={"exit"}
-    >
-      <h3>Step 1: Choose Your Base</h3>
-      <ul>
-        {bases.map((base) => {
-          let spanClass = pizza.base === base ? "active" : "";
-          return (
-            <motion.li
-              variants={baseVariant}
-              whileHover={"hoverEffect"}
-              key={base}
-              onClick={() => addBase(base)}
-            >
-              <span className={spanClass}>{base}</span>
-            </motion.li>
-          );
-        })}
-      </ul>
+    <>
+      <Helmet>
+        <title>Pizza Joint pizza-base-selction</title>
+        <meta
+          name="description"
+          content="Choose your desired pizza base to be added to your pizza "
+        />
+        <link rel="canonical" href="/base" />
+      </Helmet>
+      <motion.div
+        className="base container"
+        variants={containerVariant}
+        initial={"hidden"}
+        animate={"visible"}
+        exit={"exit"}
+      >
+        <h3>Step 1: Choose Your Base</h3>
+        <ul>
+          {bases.map((base) => {
+            let spanClass = pizza.base === base ? "active" : "";
+            return (
+              <motion.li
+                variants={baseVariant}
+                whileHover={"hoverEffect"}
+                key={base}
+                onClick={() => addBase(base)}
+              >
+                <span className={spanClass}>{base}</span>
+              </motion.li>
+            );
+          })}
+        </ul>
 
-      {pizza.base && (
-        <motion.div className="next" variants={nextVariant}>
-          <Link to="/toppings">
-            <motion.button variants={buttonVariant} whileHover={"hoverEffect"}>
-              Next
-            </motion.button>
-          </Link>
-        </motion.div>
-      )}
-    </motion.div>
+        {pizza.base && (
+          <motion.div className="next" variants={nextVariant}>
+            <Link to="/toppings">
+              <motion.button
+                variants={buttonVariant}
+                whileHover={"hoverEffect"}
+              >
+                Next
+              </motion.button>
+            </Link>
+          </motion.div>
+        )}
+      </motion.div>
+    </>
   );
 };
 
